@@ -141,6 +141,7 @@ workflows:
   deploy-model:
     jobs:
       - huggingface-inference-endpoints/update_inference_endpoint:
+          when: << pipeline.trigger_parameters.webhook.body >>
           context:
             - whook
           webhook_body: << pipeline.trigger_parameters.webhook.body >>
