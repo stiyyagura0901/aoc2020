@@ -37,8 +37,8 @@ orbs:
                 echo "===DEBUG==="
                 echo $WEBHOOK_BODY
                 echo "==========="
-                # check if webhook body is provided and it is not empty or null
-                if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" ]]; then
+                # check if webhook body is provided and it is not empty or null or not equal to {}
+                if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" || "$WEBHOOK_BODY" == "{}" ]]; then
                   echo "Webhook body is empty or null"
                   exit 1
                 fi
