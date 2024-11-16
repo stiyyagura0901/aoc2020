@@ -34,6 +34,12 @@ orbs:
           - run:
               description: update inference endpoint
               command: |
+                echo "==============================="
+                echo "WEBHOOK_BODY: $WEBHOOK_BODY"
+                echo "BRANCH_NAME: $BRANCH_NAME"
+                echo "INFERENCE_ENDPOINT_NAME: $INFERENCE_ENDPOINT_NAME"
+                echo "ORGANIZATION_NAME: $ORGANIZATION_NAME"
+                echo "==============================="
                 # check if webhook body is provided and it is not empty or null or not equal to {}
                 if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" || "$WEBHOOK_BODY" == "{}" ]]; then
                   echo "Webhook body is empty or null"
