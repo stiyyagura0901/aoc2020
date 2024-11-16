@@ -34,12 +34,6 @@ orbs:
           - run:
               description: update inference endpoint
               command: |
-                echo "==============================="
-                echo "WEBHOOK_BODY: $WEBHOOK_BODY"
-                echo "BRANCH_NAME: $BRANCH_NAME"
-                echo "INFERENCE_ENDPOINT_NAME: $INFERENCE_ENDPOINT_NAME"
-                echo "ORGANIZATION_NAME: $ORGANIZATION_NAME"
-                echo "==============================="
                 # check if webhook body is provided and it is not empty or null or not equal to {}
                 if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" || "$WEBHOOK_BODY" == "{}" ]]; then
                   echo "Webhook body is empty or null"
@@ -73,7 +67,7 @@ orbs:
                 echo "Model repository is $MODEL_REPOSITORY"
 
                 # update inference endpoint with new revision
-                echo "Updating inference endpoint $INFERENCE_ENDPOINT_NAME with new revision $NEW_SHA from revision $OLD_SHA from repository $MODEL_REPOSITORY"
+                echo "Updating inference endpoint $INFERENCE_ENDPOINT_NAME with new revision $NEW_SHA from revision $CURRENT_REVISION from repository $MODEL_REPOSITORY"
                 UPDATE_ENDPOINT_API_RESPONSE=$(curl -s -f -X PUT "https://api.endpoints.huggingface.cloud/v2/endpoint/$ORGANIZATION_NAME/$INFERENCE_ENDPOINT_NAME" \
                   -H "Authorization: Bearer $HF_TOKEN" \
                   -H "Content-Type: application/json" \
