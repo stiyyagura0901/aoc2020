@@ -85,7 +85,7 @@ orbs:
                 fi
 
                 echo "Inference endpoint update triggered successfully!!!"
-                echo "Check the status of the update at https://ui.endpoints.huggingface.co/$ORGANIZATION_NAME/endpoints/$INFERENCE_ENDPOINT_NAME""
+                echo "Check the status of the update at https://ui.endpoints.huggingface.co/$ORGANIZATION_NAME/endpoints/$INFERENCE_ENDPOINT_NAME"
                 exit 0
               environment:
                 WEBHOOK_BODY: << parameters.webhook_body >>
