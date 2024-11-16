@@ -32,6 +32,7 @@ orbs:
           - checkout
           - jq/install
           - run:
+              description: update inference endpoint
               command: |
                 # check if webhook body is provided and it is not empty or null
                 if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" ]]; then
@@ -40,7 +41,7 @@ orbs:
                 fi
 
                 # get new sha and old sha from webhook body for given branch
-                read -r OLD_SHA NEW_SHA <<< $(jq -r --arg branch "$BRANCH_NAME" '.updatedRefs[] | select(.ref == "refs/heads/\($branch)") | "\(.oldSha) \(.newSha)"' <<< "$OUTPUT")
+                read -r OLD_SHA NEW_SHA \<<< $(jq -r --arg branch "$BRANCH_NAME" '.updatedRefs[] | select(.ref == "refs/heads/\($branch)") | "\(.oldSha) \(.newSha)"' \<<< "$OUTPUT")
                 echo "Old revision: $OLD_SHA"
                 echo "New revision: $NEW_SHA"
 
@@ -80,7 +81,6 @@ orbs:
                 echo "Inference endpoint update triggered successfully!!!"
                 echo "Check the status of the update at https://ui.endpoints.huggingface.co/$ORGANIZATION_NAME/endpoints/$INFERENCE_ENDPOINT_NAME""
                 exit 0
-              description: update inference endpoint
               environment:
                 WEBHOOK_BODY: << parameters.webhook_body >>
                 BRANCH_NAME: << parameters.branch_name >>
@@ -124,15 +124,6 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-
-  deploy-model-to-hf-endpoint:
-    docker:
-      - image: cimg/base:current
-    steps:
-      - checkout
-      - run:
-          name: "Deploy model"
-          command: "echo Deploying model"
 
 workflows:
   say-hello-workflow:
