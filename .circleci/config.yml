@@ -34,9 +34,6 @@ orbs:
           - run:
               description: update inference endpoint
               command: |
-                echo "===DEBUG==="
-                echo $WEBHOOK_BODY
-                echo "==========="
                 # check if webhook body is provided and it is not empty or null or not equal to {}
                 if [[ -z "$WEBHOOK_BODY" || "$WEBHOOK_BODY" == "null" || "$WEBHOOK_BODY" == "{}" ]]; then
                   echo "Webhook body is empty or null"
@@ -119,7 +116,9 @@ orbs:
 
 workflows:
   deploy-model:
-    when: << pipeline.trigger_parameters.webhook.body >>
+    when:
+      not:
+        equal: ["{}", << pipeline.trigger_parameters.webhook.body >>]
     jobs:
       - huggingface-inference-endpoints/update_inference_endpoint:
           context:
